@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>С Днем Рождения, Ксюша!</title>
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+  <link rel="stylesheet" href="assets/demo.css">
+  <link rel="stylesheet" href="main.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+
+  <script src="tracking-min.js"></script>
+  <script src="face-min.js"></script>
+  <!--<script src="dat.gui.js"></script>-->
+  <!--<script src="assets/stats.min.js"></script>-->
+
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
+    
+    video,
+    canvas {
+      position: absolute;
+    }
+    
+    #fireworks-canvas {
+      position: absolute;
+    }
+    
+    .container {
+      display: flex;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .child {
+      width: 640px;
+      height: 480px;
+      /*  position: absolute;
+        top: 50%;
+        left: 50%;*/
+    }
+    
+    body {
+      background: url(200_s.gif)
+    }
+    
+    .present {
+      display: block;
+      width: 375px;
+      height: 377px;
+    }
+    
+    h1 {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      font-size: 3em;
+      top: 2em;
+      color: #d2d95d;
+      text-shadow: 2px 1px 0 #000;
+    }
+
+     h2 {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      font-size: 2em;
+      top: 2em;
+      color: #d2d95d;
+      text-shadow: 2px 1px 0 #000;
+      padding: 1em;
+      background: white;
+    }
+  </style>
+</head>
+
+<body>
+  <img id="source" style="display: none" src="face_rotated.png" />
+  <div class="screen1" style="
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    background: rgba(0,0,0,.9)
+  ">
+  </div>
+
+  <div class="screen0" style="
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    background: rgba(0,0,0,.9);
+    color: #d2d95d;
+    text-align: center;
+    padding-top: 10em;
+    font-size: 2em;
+  ">
+    <p id="plz">Разреши использование камеры, пожалуйста)</p>
+  </div>
+
+  <div style="display: none;" class="text screen2">
+    <h2>
+      Желаю тебе почаще радоваться и улыбаться) <br/>
+      Ты прекрасна, как и твоя улыбка!
+    </h2>
+  </div>
+
+  <div style="display: none;" class="text screen1">
+    <h1>С Днем рождения!</h1>
+  </div>
+
+
+  <canvas style="display: none;" class="screen1" id="fireworks-canvas"></canvas>
+
+  <div class="container">
+    <img style="display: none;" class="screen1 pulse present" src="gift.png" />
+    <div style="display: none" class="screen2 child">
+      <video id="video" width="640" height="480" preload autoplay loop muted></video>
+      <canvas id="canvas" width="640" height="480" style="background: transparent"></canvas>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+
+  <script src="fireworks3.js"></script>
+  <script>
+    $(function () {
+      var $screen1 = $('.screen1');
+      var $screen2 = $('.screen2');
+      var $screen0 = $('.screen0');
+      var $present = $('.present');
+
+      $present.on('click', function () {
+        stopFireworks();
+        $screen1.fadeOut(function () {
+          screen2();
+          $screen2.fadeIn();
+        });
+      });
+
+      navigator.getMedia = (
+        navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia
+      );
+      navigator.getMedia(
+        { video: true },
+        function() {
+          $screen0.fadeOut(function() {
+            $screen1.fadeIn();
+          });
+        },
+        function() {
+          $('#plz').text('Ну пожалуйста!');
+        }
+      );
+    });
+
+  </script>
+</body>
+
+</html>
